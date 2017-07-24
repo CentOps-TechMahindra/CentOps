@@ -1,0 +1,366 @@
+#! /usr/bin/env perl
+
+################################################################
+#
+#       DESCRIPTION: To install CentOps version 3.1
+#       Version: 0.1, Created by CentOps Support 04/14/2017
+#
+################################################################
+
+use warnings;
+use strict;
+use POSIX qw(strftime);
+use Cwd qw(abs_path);
+use File::Basename qw(dirname);
+use Net::Domain qw/ hostfqdn /; # For FQND hostname
+use File::Copy qw(move);
+use lib "./lib";
+use Archive::Tar;
+
+my $startTime = localtime;
+print "INFO: Execution Started :: " . $startTime . "\n";
+my $today = `date +%Y%m%d%H%M%S`;
+chomp ($today);
+
+my @yesAnswered = qw (y Y Yes yes);
+my $default_tomcat_port=18080;
+my $tomcat_version="7.0.53";
+my $script_loc=dirname(abs_path($0));
+print "INFO: Current Location :: " . $script_loc . "\n";
+my $HOST_FQDN=hostfqdn;
+print "INFO: HostName :: " . $HOST_FQDN . "\n";
+my $profile=$ENV{"HOME"} . "/.profile";
+die "FATAL: profile:: $profile not found, Exiting... " unless (-f $profile );
+my $db_installer_script = "./create_centops_tables.sh";
+
+my $oraClient_path = `which sqlplus 2>/dev/null`;
+my $java_path = `which java 2>/dev/null`;
+
+if (! ($java_path))
+{
+    print "FATAL: java not found, exiting...\n";
+    exit(1);
+}
+else
+{
+    print "INFO: java is installed...\n";
+}
+
+if (! ($oraClient_path))
+{
+    print "ERROR: oracle client not found...\n";
+}
+else
+{
+    print "INFO: oracle client is installed...\n";
+}
+
+my $CENTOPS_STAGE = "";
+print "Please enter CENTOPS_STAGE path: ";
+$CENTOPS_STAGE = <STDIN>;
+chomp($CENTOPS_STAGE);
+my $CENTOPS_HOME = "";
+
+print "INFO: Validating CENTOPS_HOME\n";
+if ( ! defined $ENV{'CENTOPS_HOME'})
+{
+    #Taking value of CENTOPS_HOME from user
+    print "Please enter CENTOPS_HOME path: ";
+    $CENTOPS_HOME=<STDIN>;
+    chomp $CENTOPS_HOME;
+
+    #Inserting value of CENTOPS_HOME in .profile if it is not already present
+    open(my $out, ">>", $profile) or die "Could not open file '$profile' $!";
+    print $out "export CENTOPS_HOME=$CENTOPS_HOME\n";
+    close $out;
+    print "INFO: CENTOPS_HOME added to .profile\n";
+}
+else
+{
+    $CENTOPS_HOME = "$ENV{'CENTOPS_HOME'}";
+    print "INFO: CENTOPS_HOME is already defined in .profile\n";
+}
+
+my $freshInstall = 0;
+print "INFO: CENTOPS_HOME is set to $CENTOPS_HOME\n";
+print "INFO: Proceeding with installation at $CENTOPS_HOME\n";
+
+print "Is this Fresh Install [y] or Delta install (V2->v3) [n]: ";
+my $DeployType=<STDIN>;
+chomp($DeployType);
+
+if (grep {$_ eq $DeployType} @yesAnswered)
+{
+    $freshInstall = 1;
+    $db_installer_script = "./create_centops_tables.sh";
+    print "INFO: Will execute Fresh Installation of Centops\n";
+}
+else
+{
+    $db_installer_script = "./create_centops_delta_tables.sh";
+    print "INFO: Will upgrade Centops from V2 -> v3\n";
+}
+
+print "Continue? [y/n]: ";
+my $REPLY=<STDIN>;
+chomp $REPLY;
+
+if (!(grep {$_ eq $REPLY} @yesAnswered))
+{
+    print "INFO: Ok, exiting...\n";
+    exit (1);
+}
+
+my $port_num = $default_tomcat_port;
+my $port_num_temp;
+my $buffer = 2;
+my $command="lsof -i:$port_num | wc -l";
+my $port_in_use = 1;
+$port_in_use=system($command);
+my $port_found="false";
+$port_found = "true" if ( $port_in_use eq "0" );
+while ($port_found eq "false")
+{
+    $command="lsof -i:$port_num | wc -l";
+    $port_in_use=system($command);
+    if ( $port_in_use eq "0" )
+    {
+        print "INFO: Port is not in use: $port_num\n";
+        $port_found="true";
+    }
+    else
+    {
+        print "INFO: Port is in use: $port_num\n";
+        $port_num_temp=$port_num + $buffer;
+        $port_num=$port_num_temp;
+    }
+}
+
+print "INFO: Using $port_num for application...\n";
+
+print ("Run update for $CENTOPS_HOME ? [y/n]: ");
+my $centHomeUpdate = <STDIN>;
+chomp($centHomeUpdate);
+
+if ((grep {$_ eq $centHomeUpdate} @yesAnswered))
+{
+    print "INFO: CWorking on $CENTOPS_HOME\n";
+    if (-d "$CENTOPS_HOME" )
+    {
+        print "INFO: Taking backup of existing directory:: " . $CENTOPS_HOME . "\n";
+        mkdir "$CENTOPS_HOME", 0755 unless ( -d "$CENTOPS_HOME");
+        mkdir "$CENTOPS_HOME/.backup", 0755 unless ( -d "$CENTOPS_HOME/.backup");
+        move "$CENTOPS_HOME/Config", "$CENTOPS_HOME/.backup/Config.$today" if (-d "$CENTOPS_HOME/Config");
+        move "$CENTOPS_HOME/lib", "${CENTOPS_HOME}/.backup/lib.$today" if (-d "$CENTOPS_HOME/lib");
+        move "$CENTOPS_HOME/artifacts", "$CENTOPS_HOME/.backup/artifacts.$today" if (-d "$CENTOPS_HOME/artifacts");
+        move "$CENTOPS_HOME/apache-tomcat-$tomcat_version/webapps", "$CENTOPS_HOME/.backup/war.$today" if (-d "$CENTOPS_HOME/apache-tomcat-$tomcat_version/webapps");
+        print "INFO: Backup taken successfully\n";
+    }
+    print "INFO: Creating Required Directories at $CENTOPS_HOME\n";
+    #create directories required for installation
+    mkdir "$CENTOPS_HOME", 0755 unless ( -d "$CENTOPS_HOME");
+    mkdir "$CENTOPS_HOME/Config", 0755 unless ( -d "$CENTOPS_HOME/Config");
+    mkdir "$CENTOPS_HOME/logs", 0755 unless ( -d "$CENTOPS_HOME/logs");
+    mkdir "$CENTOPS_HOME/.backup", 0755 unless ( -d "$CENTOPS_HOME/.backup");
+    mkdir "$CENTOPS_HOME/.currentpkg", 0755 unless ( -d "$CENTOPS_HOME/.currentpkg");
+    mkdir "$CENTOPS_HOME/lib", 0755 unless ( -d "$CENTOPS_HOME/lib");
+    mkdir "$CENTOPS_HOME/artifacts", 0755 unless ( -d "$CENTOPS_HOME/artifacts");
+    print "INFO: Directories Created\n";
+
+    chdir $CENTOPS_STAGE || die "FATAL: Could not change directory to $CENTOPS_STAGE, Exiting ...\n";
+
+    print ("INFO: Untarring Apache at $CENTOPS_STAGE/centops \n");
+    my $tarName = $CENTOPS_STAGE . "/centops.tar";
+    my $tar = Archive::Tar->new ($tarName);
+    print "INFO: Untarring $tarName...\n";
+    # un-tar the tar file and start installation
+    $tar->extract();
+    ##`tar -xf $CENTOPS_STAGE/"centops.tar"`;
+
+    chdir "$CENTOPS_STAGE/centops" || die "FATAL: Could not change directory to $CENTOPS_STAGE/centops, Exiting ...\n";
+    print ("Please validate if the 'apache-tomcat-$tomcat_version' was untared OK, in Solaris this is an issue for non available gtar...\n");
+    print ("Press <ENTER> to Continue... ");
+    my $tarExtract = <STDIN>;
+    print "INFO: Copying apache...\n";
+    `cp -R "$CENTOPS_STAGE/centops/apache-tomcat-$tomcat_version" "$CENTOPS_HOME/."`;
+
+    print "INFO: Updating config files...\n";
+    `cp $CENTOPS_STAGE/centops/Config/*.properties  "$CENTOPS_HOME/Config/"`;
+    `perl -pi.bak -e 's/Connector port="8080"/Connector port="$port_num"/g' "$CENTOPS_HOME/apache-tomcat-$tomcat_version/conf/server.xml"`;
+    mkdir "$CENTOPS_HOME/apache-tomcat-$tomcat_version/webapps/", 0755 unless ( -d "$CENTOPS_HOME/apache-tomcat-$tomcat_version/webapps/");
+    `cp $CENTOPS_STAGE/centops/war/*.war $CENTOPS_HOME/"apache-tomcat-$tomcat_version"/webapps/`;
+
+    #Update SYSTEM.properties file
+    `cp $CENTOPS_HOME/Config/SYSTEM.properties $CENTOPS_HOME/Config/SYSTEM.properties.bkp`;
+    `perl -pi -e 's/<APP_FQDN>/$HOST_FQDN/g' "$CENTOPS_HOME/Config/SYSTEM.properties"`;
+    `perl -pi -e 's/<APP_PORT_NUMBER>/$port_num/g' "$CENTOPS_HOME/Config/SYSTEM.properties"`;
+
+    #Turn Global Logon ON/OFF
+    print "Do you need Global Logon Turned OFF (Y/N)? ";
+    $REPLY=<STDIN>;
+    chomp $REPLY;
+
+    if ((grep {$_ eq $REPLY} @yesAnswered))
+    {
+        `perl -pi -e 's/GLOBAL_LOGON_SWITCH=ON/GLOBAL_LOGON_SWITCH=OFF/g' "$CENTOPS_HOME/Config/SYSTEM.properties"`;
+    }
+}
+else
+{
+    print ("INFO: Skipping CENTOP_HOME Updates...\n");
+}
+
+print ("Run updates for DB ? [y/n]: ");
+my $centDBUpdate = <STDIN>;
+chomp($centDBUpdate);
+
+if ((grep {$_ eq $centDBUpdate} @yesAnswered))
+{
+    print "INFO: CWorking on $CENTOPS_HOME\n";
+    #Read DB details from user
+    print "Please enter Database Hostname: ";
+    my $DB_HOSTNAME = <STDIN>; chomp $DB_HOSTNAME;
+
+    print "Please enter Database Port Number: ";
+    my $DB_PORT = <STDIN>; chomp $DB_PORT;
+
+    print "Please enter Database SID: ";
+    my $DB_SID = <STDIN>; chomp $DB_SID;
+
+    print "Please enter Database Schema Name: ";
+    my $SCHEMA_NAME = <STDIN>; chomp $SCHEMA_NAME;
+
+    print "Please enter Database Schema Password: ";
+    system('stty','-echo');
+    my $SCHEMA_PASSWORD=<STDIN>; chomp $SCHEMA_PASSWORD;
+    system('stty','echo');print "\n";
+
+    print "Please enter the TS to use for table creation: ";
+    my $TBLSPC_NAME = <STDIN>;
+    chomp($TBLSPC_NAME);
+
+    die "FATAL: Invalid Hostname, Exiting....\n" if ($DB_HOSTNAME eq "");
+    die "FATAL: Invalid Port, Exiting....\n" if ($DB_PORT eq "");
+    die "FATAL: Invalid SID, Exiting....\n" if ($DB_SID eq "");
+    die "FATAL: Invalid Username, Exiting....\n" if ($SCHEMA_NAME eq "");
+    die "FATAL: Invalid Password, Exiting....\n" if ($SCHEMA_PASSWORD eq "");
+    die "FATAL: Invalid Table Space, Exiting....\n" if ($TBLSPC_NAME eq "");
+
+    #Modify CENTOPS_DB.properties based on user input
+    `cp $CENTOPS_HOME/Config/CENTOPS_DB.properties $CENTOPS_HOME/Config/CENTOPS_DB.properties.bkp`;
+    `perl -pi -e 's/<HOSTNAME>/$DB_HOSTNAME/g' "$CENTOPS_HOME/Config/CENTOPS_DB.properties"`;
+    `perl -pi -e 's/<PORT>/$DB_PORT/g' "$CENTOPS_HOME/Config/CENTOPS_DB.properties"`;
+    `perl -pi -e 's/<SID>/$DB_SID/g' "$CENTOPS_HOME/Config/CENTOPS_DB.properties"`;
+    `perl -pi -e 's/<USERNAME>/$SCHEMA_NAME/g' "$CENTOPS_HOME/Config/CENTOPS_DB.properties"`;
+    `perl -pi -e 's/<PASSWORD>/$SCHEMA_PASSWORD/g' "$CENTOPS_HOME/Config/CENTOPS_DB.properties"`;
+
+    #Encrypt db user and password for repcon
+    chdir $script_loc || die "FATAL: Could not change directory to $script_loc, Exiting ...\n";
+    my $enc_username=`java Encrypt $SCHEMA_NAME`;
+    chomp($enc_username);
+    my $enc_password=`java Encrypt $SCHEMA_PASSWORD`;
+    chomp($enc_password);
+
+    #Update REPCON_DB.properties file. Password should be encrypted for this.
+    `cp $CENTOPS_HOME/Config/REPCON_DB.properties $CENTOPS_HOME/Config/REPCON_DB.properties.bkp`;
+    `perl -pi -e 's/<HOSTNAME>/$DB_HOSTNAME/g' "$CENTOPS_HOME/Config/REPCON_DB.properties"`;
+    `perl -pi -e 's/<PORT>/$DB_PORT/g' "$CENTOPS_HOME/Config/REPCON_DB.properties"`;
+    `perl -pi -e 's/<SID>/$DB_SID/g' "$CENTOPS_HOME/Config/REPCON_DB.properties"`;
+    `perl -pi -e 's/<USERNAME>/$enc_username/g' "$CENTOPS_HOME/Config/REPCON_DB.properties"`;
+    `perl -pi -e 's/<PASSWORD>/$enc_password/g' "$CENTOPS_HOME/Config/REPCON_DB.properties"`;
+
+    chdir "$CENTOPS_STAGE/install_scripts" || die "FATAL: Could not change directory to $CENTOPS_STAGE/install_scripts, Exiting ...\n";
+
+    my $oldName = $script_loc . "/db_install.log";
+    my $newName = $script_loc . "/db_install.log." . $today;
+
+    if ( -f $oldName )
+    {
+        print ("INFO: Renaming $oldName => $newName \n");
+        rename $oldName,$newName;
+    }
+    print "INFO: Starting DB installation...\n";
+    #DB installation for centops
+    print ("INFO: Installing on $SCHEMA_NAME\@$DB_SID:$TBLSPC_NAME\n");
+    print ("INFO: Running installer: $db_installer_script \n");
+    `$db_installer_script $SCHEMA_NAME $SCHEMA_PASSWORD $DB_SID $TBLSPC_NAME`;
+    my $errorCount = 0;
+    open  my $log_handle, "<$oldName";
+    chomp(my @lines = <$log_handle>);
+    my @matchesInLog = grep { /ORA-|PLS-|SP2-/ } @lines;
+    $errorCount = @matchesInLog;
+    close $log_handle;
+    if ($errorCount == 0)
+    {
+        print "INFO: DB installation completed Successfully\n";
+    }
+    else
+    {
+        print "ALERT: DB installation completed with $errorCount failures, Exiting....\n";
+        exit(1);
+    }
+
+    if ($freshInstall == 1)
+    {
+        #Insert a default Admin...
+        print ("INFO: Need to insert a default Admin...\n");
+        print ("Enter the username to be set as default admin (must be valid GL user if Global Logon is Turned ON): ");
+        my $centops_admin_user=<STDIN>;
+        chomp $centops_admin_user;
+        print ("Enter the FirstName of user: ");
+        my $centops_firstname=<STDIN>;
+        chomp $centops_firstname;
+        print ("Enter the LastName of user: ");
+        my $centops_lastname=<STDIN>;
+        chomp $centops_lastname;
+        print ("Enter the e-mailID of user: ");
+        my $centops_emailId=<STDIN>;
+        chomp $centops_emailId;
+        print ("Enter the Phone Number of user: ");
+        my $centops_phone=<STDIN>;
+        chomp $centops_phone;
+        print ("Enter the Team Name of user: ");
+        my $centops_teamName=<STDIN>;
+        chomp $centops_teamName;
+        `./insertFirstAdmin.sh $SCHEMA_NAME $SCHEMA_PASSWORD $DB_SID $centops_admin_user $centops_firstname $centops_lastname $centops_emailId $centops_phone $centops_teamName`
+    }
+}
+else
+{
+    print ("INFO: Skipping DB Updates...\n");
+}
+
+#Starting and validation Tomcat
+print "INFO: Starting Tomcat Application...\n";
+`$CENTOPS_HOME/"apache-tomcat-$tomcat_version"/bin/startup.sh`;
+print "INFO: Sleeping for a while to let tomcat start...\n";
+sleep (35);
+my $IF_APP_STARTED=`grep -i "INFO: Server startup in" $CENTOPS_HOME/"apache-tomcat-$tomcat_version"/logs/catalina.out`;
+
+if (! ($IF_APP_STARTED))
+{
+    print "[ERROR] Application did not start. Please check Tomcat logs for more details.\n";
+    exit (1) ;
+}
+else
+{
+    print "INFO: Application is up and running\n";
+}
+
+print "INFO: Checking Connectivity..\n";
+sleep (5);
+my $IS_APP_CONNECTING=`curl -Is http://"$HOST_FQDN":"$port_num"/PSDashboard/home.do | head -1` ;
+if (! ($IS_APP_CONNECTING))
+{
+    print "[ERROR] Unable to connect to the Application. Please check Tomcat logs for more details. Exiting.\n";
+    exit (1);
+}
+else
+{
+    print "INFO: Application connection is  good\n";
+}
+
+print "INFO: URL to access CentOps dashboard: http://$HOST_FQDN:$port_num/PSDashboard/home.do\n";
+
+my $endTime = localtime;
+print "INFO: Execution Completed :: " . $endTime . "\n";
