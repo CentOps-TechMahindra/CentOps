@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	
+	<display-name>PSDashboard</display-name>
+  	
+  	<filter>
+    	<filter-name>Auth</filter-name>
+    	<filter-class>com.techm.psd.auth.AuthFilter</filter-class>
+  	</filter>
+  
+  	<filter-mapping>
+    	<filter-name>Auth</filter-name>
+    	<url-pattern>*.do</url-pattern>
+    	<dispatcher>REQUEST</dispatcher>
+  	</filter-mapping>
+  
+  	<servlet>
+    	<servlet-name>action</servlet-name>
+    	<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+    	<init-param>
+      		<param-name>config</param-name>
+      		<param-value>/WEB-INF/struts-config.xml</param-value>
+    	</init-param>
+    	<init-param>
+      		<param-name>debug</param-name>
+      		<param-value>2</param-value>
+    	</init-param>
+  		<init-param>
+      		<param-name>detail</param-name>
+      		<param-value>2</param-value>
+    	</init-param>
+    	<load-on-startup>2</load-on-startup>
+  	</servlet> 
+  
+  	<servlet-mapping>
+    	<servlet-name>action</servlet-name>
+    	<url-pattern>*.do</url-pattern>
+  	</servlet-mapping>  
+  
+  	<session-config>
+    	<session-timeout>720</session-timeout>
+  	</session-config>
+  
+  	<mime-mapping>
+    	<extension>xls</extension>
+    	<mime-type>application/xls</mime-type>
+  	</mime-mapping>
+  
+  	<welcome-file-list>
+    	<welcome-file>home.do</welcome-file>
+  	</welcome-file-list>
+  
+  	<!--START: Error -->
+ 	<error-page>			
+		<error-code>404</error-code>
+		<location>/pages/error/404.jsp</location>
+  	</error-page>	
+  
+  	<error-page>	
+		<error-code>500</error-code>
+		<location>/pages/error/500.jsp</location>
+  	</error-page> 
+  
+  	<error-page>
+		<exception-type>java.lang.Exception</exception-type> 
+		<location>/pages/error/genericError.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<exception-type>com.techm.psd.exception.PSDException</exception-type> 
+		<location>/pages/error/genericError.jsp</location>
+	</error-page>
+	<!--END: Error -->
+	
+	<!--START: Struts Tag Library Descriptors -->
+	<jsp-config>
+		<taglib>
+			<taglib-uri>/tags/struts-bean</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/struts-bean.tld</taglib-location>
+		</taglib>
+	
+		<taglib>
+			<taglib-uri>/tags/struts-html</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/struts-html.tld</taglib-location>
+		</taglib>
+	
+		<taglib>
+			<taglib-uri>/tags/struts-logic</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/struts-logic.tld</taglib-location>
+		</taglib>
+	
+		<taglib>
+			<taglib-uri>/tags/struts-nested</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/struts-nested.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	<!--END: Struts Tag Library Descriptors -->
+	
+	<!-- Start Flow AJAX : START -->
+  	<servlet>
+	  	<description>Servlet to Start Flow AJAX .</description>
+		<servlet-name>WorkflowStartAJAX</servlet-name>
+		<servlet-class>com.techm.psd.servlet.WorkflowStartAJAX</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>WorkflowStartAJAX</servlet-name>
+		<url-pattern>/WorkflowStartAJAX</url-pattern>
+  	</servlet-mapping>
+  	<!-- Start Flow  AJAX : END -->
+  	
+  	<!-- WORKFLOW HISTORY AJAX : START -->
+  	<servlet>
+	  	<description>Servlet to History Flow AJAX .</description>
+		<servlet-name>WorkflowHistoryAJAX</servlet-name>
+		<servlet-class>com.techm.psd.servlet.WorkflowHistoryAJAX</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>WorkflowHistoryAJAX</servlet-name>
+		<url-pattern>/WorkflowHistoryAJAX</url-pattern>
+  	</servlet-mapping>
+  	<!-- WORKFLOW HISTORY AJAX : END -->
+  	
+  	<!-- WORKFLOW REPORT AJAX : START -->
+  	<servlet>
+	  	<description>Servlet to Report AJAX .</description>
+		<servlet-name>WorkflowReportAJAX</servlet-name>
+		<servlet-class>com.techm.psd.servlet.WorkflowReportAJAX</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>WorkflowReportAJAX</servlet-name>
+		<url-pattern>/WorkflowReportAJAX</url-pattern>
+  	</servlet-mapping>
+  	<!-- WORKFLOW REPORT AJAX : END -->
+  	
+  	<!-- WORKFLOW REPORT AJAX : START -->
+  	<servlet>
+	  	<description>Servlet to ReportDBAjax AJAX .</description>
+		<servlet-name>ReportDBAjax</servlet-name>
+		<servlet-class>com.techm.psd.servlet.ReportDBAjax</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>ReportDBAjax</servlet-name>
+		<url-pattern>/ReportDBAjax</url-pattern>
+  	</servlet-mapping>
+  	<!-- WORKFLOW REPORT AJAX : END -->
+  	
+  	<!-- NODES DETAILS AJAX : START -->
+  	<servlet>
+	  	<description>Servlet to NodesDetailsAJAX AJAX .</description>
+		<servlet-name>NodesDetailsAJAX</servlet-name>
+		<servlet-class>com.techm.psd.servlet.NodesDetailsAJAX</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>NodesDetailsAJAX</servlet-name>
+		<url-pattern>/NodesDetailsAJAX</url-pattern>
+  	</servlet-mapping>
+  	<!-- NODES DETAILS AJAX : END -->
+
+	<!-- WORKFLOW VALIDATION AJAX : START -->
+  	<servlet>
+	  	<description>Servlet to Workflow Name Validation AJAX .</description>
+		<servlet-name>WorkflowNameValidationAJAX</servlet-name>
+		<servlet-class>com.techm.psd.servlet.WorkflowNameValidationAJAX</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>WorkflowNameValidationAJAX</servlet-name>
+		<url-pattern>/WorkflowNameValidationAJAX</url-pattern>
+  	</servlet-mapping>
+  	<!-- WORKFLOW VALIDATION AJAX : END -->
+  	
+  	<!-- APPLICATION VALIDATION AJAX : START -->
+  	<servlet>
+	  	<description>Servlet to Application Validation AJAX .</description>
+		<servlet-name>AppValidationAJAX</servlet-name>
+		<servlet-class>com.techm.psd.servlet.AppValidationAJAX</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>AppValidationAJAX</servlet-name>
+		<url-pattern>/AppValidationAJAX</url-pattern>
+  	</servlet-mapping>
+  	<!-- APPLICATION VALIDATION AJAX : END -->
+  	
+  	<!-- WORKFLOW TYPE VALIDATION AJAX : START -->
+  	<servlet>
+	  	<description>Servlet to Application Validation AJAX .</description>
+		<servlet-name>WorkflowTypeValidationAJAX</servlet-name>
+		<servlet-class>com.techm.psd.servlet.WorkflowTypeValidationAJAX</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>WorkflowTypeValidationAJAX</servlet-name>
+		<url-pattern>/WorkflowTypeValidationAJAX</url-pattern>
+  	</servlet-mapping>
+  	<!-- WORKFLOW TYPE VALIDATION AJAX : END -->
+  	
+  	<!--Application Manager Code: START-->
+  	<servlet>
+    	<servlet-name>AppManagerServlet</servlet-name>
+    	<servlet-class>com.techm.psd.appManager.servlet.AppManagerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>AppManagerServlet</servlet-name>
+	    <url-pattern>/AppManagerServlet</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	    <servlet-name>LoadImage</servlet-name>
+	    <servlet-class>com.techm.psd.appManager.servlet.LoadImage</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>LoadImage</servlet-name>
+	    <url-pattern>/LoadImage</url-pattern>
+	</servlet-mapping>
+	<!--Application Manager Code: END-->
+  	
+  	<servlet> 
+	    <description></description> 
+	    <display-name>UserController</display-name> 
+	    <servlet-name>UserController</servlet-name> 
+	    <servlet-class>controller.UserController</servlet-class> 
+  	</servlet> 
+	<servlet-mapping> 
+		<servlet-name>UserController</servlet-name> 
+	    <url-pattern>/UserController</url-pattern> 
+	</servlet-mapping>
+  	
+  	<!-- FEEDBACK AJAX : START -->
+  	<servlet>
+	  	<description>FEEDBACK Servlet AJAX .</description>
+		<servlet-name>FeedbackAJAX</servlet-name>
+		<servlet-class>com.techm.psd.feedback.servlet.FeedbackAJAX</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>FeedbackAJAX</servlet-name>
+		<url-pattern>/FeedbackAJAX</url-pattern>
+  	</servlet-mapping>
+  	<!-- FEEDBACK AJAX : END -->
+  	
+  	<!-- VIEW FEEDBACK AJAX : START -->
+  	<servlet>
+	  	<description>View Closed FEEDBACK Servlet AJAX .</description>
+		<servlet-name>ViewFeedbackAJAX</servlet-name>
+		<servlet-class>com.techm.psd.feedback.servlet.ViewFeedbackAJAX</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>ViewFeedbackAJAX</servlet-name>
+		<url-pattern>/ViewFeedbackAJAX</url-pattern>
+  	</servlet-mapping>
+  	<!-- VIEW FEEDBACK AJAX : END -->
+  	
+  	<!-- SAVE FEEDBACK AJAX : START -->
+  	<servlet>
+	  	<description>FEEDBACK Servlet AJAX .</description>
+		<servlet-name>SaveFeedbackAJAX</servlet-name>
+		<servlet-class>com.techm.psd.feedback.servlet.SaveFeedbackAJAX</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>SaveFeedbackAJAX</servlet-name>
+		<url-pattern>/SaveFeedbackAJAX</url-pattern>
+  	</servlet-mapping>
+  	<!-- SAVE FEEDBACK AJAX : END -->
+  	
+  	<!-- UPDATE FEEDBACK AJAX : START -->
+  	<servlet>
+	  	<description>FEEDBACK Servlet AJAX .</description>
+		<servlet-name>UpdateFeedbackAJAX</servlet-name>
+		<servlet-class>com.techm.psd.feedback.servlet.UpdateFeedbackAJAX</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>UpdateFeedbackAJAX</servlet-name>
+		<url-pattern>/UpdateFeedbackAJAX</url-pattern>
+  	</servlet-mapping>
+  	<!-- UPDATE FEEDBACK AJAX : END -->
+  	
+  	<!-- FIXIT Workflow AJAX : START -->
+  	<servlet>
+	  	<description>FIXIT Workflow Servlet AJAX .</description>
+		<servlet-name>FixitWorkflowAJAX</servlet-name>
+		<servlet-class>com.techm.psd.servlet.FixitWorkflowAJAX</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+  		<servlet-name>FixitWorkflowAJAX</servlet-name>
+		<url-pattern>/FixitWorkflowAJAX</url-pattern>
+  	</servlet-mapping>
+  	<!-- FIXIT Workflow AJAX : END -->
+  	
+  	<servlet>
+    	<description></description>
+    	<display-name>GaugeData</display-name>
+    	<servlet-name>GaugeData</servlet-name>
+    	<servlet-class>controller.GaugeData</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+    	<servlet-name>GaugeData</servlet-name>
+    	<url-pattern>/GaugeData</url-pattern>
+  	</servlet-mapping>
+  
+</web-app>

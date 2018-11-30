@@ -1,0 +1,30 @@
+#bodyContainer { 
+	overflow:auto; 
+	overflow-y:hidden; 
+	min-height: 72vh;
+}
+
+table.trackerTable { 
+	width:100%; 
+	border-collapse:collapse 
+}
+
+table.trackerTable th { 
+	background-color:#c0c0c0; 
+	color:black; 
+	padding:5px; 
+	border:1px solid #45adff; 
+	line-height:24px; 
+	font-weight:bold; 
+	text-align:center; 
+	width:11.11111111% 
+}
+
+table.trackerTable td { 
+	padding:5px; 
+	border:1px solid #ccc; 
+	width:11.11111111% 
+}
+
+table.trackerTable > tbody > tr:nth-child(odd)		{ background-color:#eee; } 
+table.trackerTable > tbody > tr:nth-child(even)

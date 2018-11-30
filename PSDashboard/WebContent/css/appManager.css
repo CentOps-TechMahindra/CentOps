@@ -1,0 +1,68 @@
+#PersonTableContainer {
+	box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+	-moz-box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+	-webkit-box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+	-o-box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+}
+
+.docenter {
+	align: center;
+	text-align: center;
+}
+
+.makeChange {
+	align: center;
+	padding: 2px 2px 2px 2px;
+	border-spacing: 10px;
+	border-collapse: separate;
+}
+
+.makeChange #mainrow {
+	border: 1px solid #909090;
+	padding: 4px 0px 4px 4px;
+	background: linear-gradient(#B0B0B0, #F0F0F0);
+}
+
+.allSides {
+	align: center;
+	width: 1111px;
+	border: solid 1px #C8C8C8;
+	background: linear-gradient(#B0B0B0, #F0F0F0);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+	-o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.mainPage {
+	width: 300px;
+	height: 100px;
+	background-color: yellow;
+	box-shadow: 10px 10px 5px 5px #888888;
+}
+
+div.jtable-main-container table.jtable thead th {
+	background-color: #e35b5a;
+}
+
+div.jtable-main-container > table.jtable > tbody > tr > td {
+    background-color: #fff;
+    color: black;
+}
+
+div.jtable-main-container > div.jtable-bottom-panel {
+    background-color: #e35b5a;
+}
+
+div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number, 
+div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-space, 
+div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-first, 
+div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-last, 
+div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-previous, 
+div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-next, 
+div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-active {
+    background-color: #e35b5a;
+    color: #fff;
+    margin: 1px;
+    padding: 2px 5px;
+}

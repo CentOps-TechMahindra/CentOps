@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+	
+	<form-beans>
+		<form-bean name="homeForm" 			type="com.techm.psd.home.form.HomeForm" />
+		<form-bean name="loginForm" 		type="com.techm.psd.login.form.LoginForm" />
+		<form-bean name="consoleForm" 		type="com.techm.psd.console.form.ConsoleForm" />
+		<form-bean name="userForm" 			type="com.techm.psd.user.form.UserForm" />
+		<form-bean name="dashboardForm" 	type="com.techm.psd.dashboard.form.DashboardForm" />
+		<form-bean name="workflowForm" 		type="com.techm.psd.workflow.form.WorkflowForm" />
+		<form-bean name="applicationForm" 	type="com.techm.psd.application.form.ApplicationForm" />
+		<form-bean name="workflowTypeForm" 	type="com.techm.psd.workflowType.form.WorkflowTypeForm" />
+		<form-bean name="feedbackForm" 		type="com.techm.psd.feedback.form.FeedbackForm" />
+	</form-beans>
+
+	<!--
+		************************ Global exceptions ************************
+	-->
+	<global-exceptions>	
+		<exception key="page.error.key" type="com.techm.psd.exception.PSDException"
+			handler="com.techm.psd.common.action.ErrorHandler" path="/pages/error/genericError.jsp" />
+	</global-exceptions>
+	<!--
+		************************ Global forwards ************************
+		<forward name="error" path="/pages/error/genericError.jsp" />
+	-->
+	<global-forwards>
+		<forward name="invalidSession" path="/dashboard.do" />
+		<forward name="unauthorized" path="/pages/error/unauthorized.jsp" />
+	</global-forwards>
+
+	<action-mappings>	
+	
+		<action path="/home" name="homeForm" validate="false"
+			scope="request" type="com.techm.psd.home.action.HomeAction" parameter="method">
+			<forward name="home" path="/pages/home/home.jsp" />
+		</action>
+		
+		<action path="/console" name="consoleForm" validate="false"
+			scope="request" type="com.techm.psd.console.action.ConsoleAction" parameter="method">
+			<forward name="console" path="/pages/psd/console.jsp" />
+		</action>
+		
+		<action path="/login" name="loginForm" validate="false"
+			scope="request" type="com.techm.psd.login.action.LoginAction" parameter="method">
+			<forward name="login" path="/pages/authentication/login.jsp" />
+		</action>
+		
+		<action path="/user" name="userForm" validate="false"
+			scope="request" type="com.techm.psd.user.action.UserAction" parameter="method">
+			<forward name="requestAccess" path="/pages/user/requestAccess.jsp" />
+		</action>
+		
+		<action path="/admin" name="userForm" validate="false"
+			scope="request" type="com.techm.psd.user.action.AdminUserAction" parameter="method">
+			<forward name="viewAccessRequests" path="/pages/user/admin/viewAccessRequests.jsp" />
+			<forward name="appManager" path="/pages/user/admin/appManager.jsp" />
+			<forward name="dashboard"  path="/dashboard.do"/>
+		</action>
+		
+		<action path="/dashboard" name="dashboardForm" validate="false"
+			scope="request" type="com.techm.psd.dashboard.action.DashboardAction" parameter="method">
+			<forward name="dashboard" path="/pages/psd/dashboard.jsp" />
+		</action>
+		
+		<action path="/workflow" name="workflowForm" validate="false"
+			scope="request" type="com.techm.psd.workflow.action.WorkflowAction" parameter="method">
+			<forward name="addWorkflow"  path="/pages/workflow/addWorkflow.jsp" />
+			<forward name="viewWorkflow" path="/pages/workflow/viewWorkflow.jsp" />
+			<forward name="editWorkflow" path="/pages/workflow/editWorkflow.jsp" />
+		</action>
+		
+		<action path="/application" name="applicationForm" validate="false"
+			scope="request" type="com.techm.psd.application.action.ApplicationAction" parameter="method">
+			<forward name="addApplication"  path="/pages/application/addApplication.jsp" />
+			<forward name="viewApplication"  path="/pages/application/viewApplication.jsp" />
+			<forward name="editApplication"  path="/pages/application/editApplication.jsp" />
+			<forward name="appTracker"  path="/pages/application/applicationTracker.jsp" />
+		</action>
+		
+		<action path="/workflowType" name="workflowTypeForm" validate="false"
+			scope="request" type="com.techm.psd.workflowType.action.WorkflowTypeAction" parameter="method">
+			<forward name="addWorkflowType"  path="/pages/workflowType/addWorkflowType.jsp" />
+			<forward name="viewWorkflowType"  path="/pages/workflowType/viewWorkflowType.jsp" />
+			<forward name="editWorkflowType"  path="/pages/workflowType/editWorkflowType.jsp" />
+			<forward name="workflowTypeTracker"  path="/pages/workflowType/workflowTypeTracker.jsp" />
+		</action>
+	
+		<action path="/feedback" name="feedbackForm" validate="false"
+			scope="request" type="com.techm.psd.feedback.action.FeedbackAction" parameter="method">
+			<forward name="viewFeedback"  			path="/pages/feedback/viewFeedback.jsp" />
+			<forward name="reviewNewFeedback"  		path="/pages/feedback/reviewNewFeedback.jsp" />
+		</action>
+		
+		<action path="/exportToExcelHistory" name="workflowForm" validate="false" type="com.techm.psd.workflow.action.ExportToExcelHistory" 
+			parameter="method" scope="request"></action>
+			
+		<action path="/exportToExcelDetailHistory" name="workflowForm" validate="false" type="com.techm.psd.workflow.action.ExportToExcelDetailHistory" 
+			parameter="method" scope="request"></action>
+		
+		<action path="/exportToPdfHistory" name="workflowForm" validate="false" type="com.techm.psd.workflow.action.ExportToPdfHistory" 
+			parameter="method" scope="request"></action>
+			
+		<action path="/exportToPdfDetailHistory" name="workflowForm" validate="false" type="com.techm.psd.workflow.action.ExportToPdfDetailHistory" 
+			parameter="method" scope="request"></action>
+				
+	</action-mappings>
+	
+	<!--
+		************************ Message Resources ************************
+	-->
+	<message-resources parameter="resources.ApplicationResources" />
+
+</struts-config>
+

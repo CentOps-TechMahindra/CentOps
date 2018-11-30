@@ -1,0 +1,4 @@
+tr.jqgrow>td.textInDiv>div {
+    max-height: 40px;
+    overflow: auto;
+}

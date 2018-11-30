@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>PS Dashboard - Dashboard</title>
+<!-- Bootstrap Core CSS -->
+<link href="../css/bootstrap.css" rel="stylesheet">
+<!-- Custom CSS -->
+<link href="../css/ps-dashboard.css" rel="stylesheet">
+<link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+<!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<!-- Header Start -->
+<header>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="brand-custom"> <a href="dashboard.html" title="PS Dashboard Page"><img alt="PS Dashboard" src="../images/ps-dashboard-logo.png" /> Dashboard </a> </div>
+      <div class="nav-top">
+        <ul class="nav navbar-nav pull-right">
+          <li class="dropdown"> <a href="#" title="Manas Ranjan Rout" class="dropdown-toggle" data-toggle="dropdown"> <img src="../images/user.png" alt="Manas Ranjan Rout Photo"> <span class="userName"> Manas Ranjan Rout</span> <i class="caret"></i></a>
+            <ul class="dropdown-menu">
+              <li><a href="#"><i class="icon-user"></i> My Profile</a></li>
+              <li><a href="#"><i class="icon-cog"></i> My Settings</a></li>
+              <li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<!-- Header Start -->
+<!-- Container Start -->
+<div class="container-fluid">
+  <!-- Sidebar Tree Structure and Search Start -->
+  <div class="page-sidebar">
+    <form id="sidebar-search" method="post">
+      <input type="text" placeholder="Search" id="sidebar-text-search" name="sidebar-search-term" value="">
+      <button class="sidebar-search-icon"></button>
+    </form>
+    <div class="workflowlist">
+      <ul class="applicationTree">
+        <li> <a href="#" title="Application"> Node 001 </a>
+          <ul>
+            <li class="treeActive"> <a href="#" title="category"> Node 001 - 01 </a>
+              <ul>
+                <li class="treeActive"> <a href="#" title="category"> Node 001 - 01 - 01</a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 02 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 03 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 04 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 05 </a> </li>
+              </ul>
+            </li>
+            <li class="treeActive"> <a href="#" title="category"> Node 001 - 02 </a> </li>
+            <li class="treeActive"> <a href="#" title="category"> Node 001 - 03 </a>
+              <ul>
+                <li class="treeActive"> <a href="#" title="category"> Node 001 - 03 - 01</a> </li>
+                <li> <a href="#" title="category"> Node 001 - 03 - 02 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 03 - 03 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 03 - 04 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 03 - 05 </a> </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li> <a href="#" title="Application"> Node 002 </a>
+          <ul>
+            <li class="treeActive"> <a href="#" title="category"> Node 001 - 01 </a>
+              <ul>
+                <li class="treeActive"> <a href="#" title="category"> Node 001 - 01 - 01</a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 02 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 03 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 04 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 05 </a> </li>
+              </ul>
+            </li>
+            <li class="treeActive"> <a href="#" title="category"> Document 01 </a> </li>
+            <li class="treeActive"> <a href="#" title="category"> Document 01 </a> </li>
+          </ul>
+        </li>
+        <li> <a href="#" title="Application"> Node 003 </a>
+          <ul>
+            <li class="treeActive"> <a href="#" title="category"> Node 001 - 01 </a>
+              <ul>
+                <li class="treeActive"> <a href="#" title="category"> Node 001 - 01 - 01</a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 02 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 03 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 04 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 05 </a> </li>
+              </ul>
+            </li>
+            <li class="treeActive"> <a href="#" title="category"> Document 01 </a> </li>
+            <li class="treeActive"> <a href="#" title="category"> Document 01 </a> </li>
+          </ul>
+        </li>
+        <li> <a href="#" title="Application"> Node 004 </a>
+          <ul>
+            <li class="treeActive"> <a href="#" title="category"> Node 001 - 01 </a>
+              <ul>
+                <li class="treeActive"> <a href="#" title="category"> Node 001 - 01 - 01</a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 02 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 03 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 04 </a> </li>
+                <li> <a href="#" title="category"> Node 001 - 01 - 05 </a> </li>
+              </ul>
+            </li>
+            <li class="treeActive"> <a href="#" title="category"> Document 01 </a> </li>
+            <li class="treeActive"> <a href="#" title="category"> Document 01 </a> </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- Sidebar Tree Structure and Search End -->
+  <!-- Main Content Area Start -->
+  <div class="main-container">
+    <h3 class="page-header">Dashboard</h3>
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <div class="panel-title pull-left">Workflow</div>
+        <div class="dropdown pull-right"> <a href="#" class="dropdown-toggle badge bg-info" data-toggle="dropdown"><span class="bag"> Workflow Lists </span> <i class="caret"></i></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Node 001</a></li>
+            <li><a href="#">Node 002</a></li>
+            <li><a href="#">Node 003</a></li>
+          </ul>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <!-- Table Data Content Start -->
+      <div class="workflowDataScroll">
+        <table class="table table-hover">
+          <colgroup>
+          <col width="1%">
+          <col width="60%">
+          <col width="18%">
+          <col width="17%">
+          <col width="4%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Workflow Name</th>
+              <th>Action</th>
+              <th>Status</th>
+              <th>Report</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="active">
+              <th scope="row">1</th>
+              <td>Proposal from Southeast Community College to Community Health Endowment of Lincoln</td>
+              <td><div class="action-tool-icons"> <a href="#" title="run" class="run"></a> <a href="#" title="edit" class="edit"></a> <a href="#" title="historical" class="historical"></a> <a href="#" title="remove" class="remove"></a> </div></td>
+              <td><div class="status-tool-icons"> <a href="#" title="online" class="online"></a> <a href="#" title="away" class="away"></a> <a href="#" title="offline" class="offline"></a> <a href="#" title="busy" class="busy"></a> </div></td>
+              <td><a href="#" title="busy" class="editWorkflow"></a></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Letter of Inquiry from Cleveland Entrepreneurial Preparatory School to Burton D Morgan Foundation</td>
+              <td><div class="action-tool-icons"> <a href="#" title="run" class="run"></a> <a href="#" title="edit" class="edit"></a> <a href="#" title="historical" class="historical"></a> <a href="#" title="remove" class="remove"></a> </div></td>
+              <td><div class="status-tool-icons"> <a href="#" title="online" class="online"></a> <a href="#" title="away" class="away"></a> <a href="#" title="offline" class="offline"></a> <a href="#" title="busy" class="busy"></a> </div></td>
+              <td><a href="#" title="busy" class="editWorkflow"></a></td>
+            </tr>
+            <tr class="active">
+              <th scope="row">1</th>
+              <td>Proposal from Southeast Community College to Community Health Endowment of Lincoln</td>
+              <td><div class="action-tool-icons"> <a href="#" title="run" class="run"></a> <a href="#" title="edit" class="edit"></a> <a href="#" title="historical" class="historical"></a> <a href="#" title="remove" class="remove"></a> </div></td>
+              <td><div class="status-tool-icons"> <a href="#" title="online" class="online"></a> <a href="#" title="away" class="away"></a> <a href="#" title="offline" class="offline"></a> <a href="#" title="busy" class="busy"></a> </div></td>
+              <td><a href="#" title="busy" class="editWorkflow"></a></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Letter of Inquiry from Cleveland Entrepreneurial Preparatory School to Burton D Morgan Foundation</td>
+              <td><div class="action-tool-icons"> <a href="#" title="run" class="run"></a> <a href="#" title="edit" class="edit"></a> <a href="#" title="historical" class="historical"></a> <a href="#" title="remove" class="remove"></a> </div></td>
+              <td><div class="status-tool-icons"> <a href="#" title="online" class="online"></a> <a href="#" title="away" class="away"></a> <a href="#" title="offline" class="offline"></a> <a href="#" title="busy" class="busy"></a> </div></td>
+              <td><a href="#" title="busy" class="editWorkflow"></a></td>
+            </tr>
+            <tr class="active">
+              <th scope="row">1</th>
+              <td>Proposal from Southeast Community College to Community Health Endowment of Lincoln</td>
+              <td><div class="action-tool-icons"> <a href="#" title="run" class="run"></a> <a href="#" title="edit" class="edit"></a> <a href="#" title="historical" class="historical"></a> <a href="#" title="remove" class="remove"></a> </div></td>
+              <td><div class="status-tool-icons"> <a href="#" title="online" class="online"></a> <a href="#" title="away" class="away"></a> <a href="#" title="offline" class="offline"></a> <a href="#" title="busy" class="busy"></a> </div></td>
+              <td><a href="#" title="busy" class="editWorkflow"></a></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Letter of Inquiry from Cleveland Entrepreneurial Preparatory School to Burton D Morgan Foundation</td>
+              <td><div class="action-tool-icons"> <a href="#" title="run" class="run"></a> <a href="#" title="edit" class="edit"></a> <a href="#" title="historical" class="historical"></a> <a href="#" title="remove" class="remove"></a> </div></td>
+              <td><div class="status-tool-icons"> <a href="#" title="online" class="online"></a> <a href="#" title="away" class="away"></a> <a href="#" title="offline" class="offline"></a> <a href="#" title="busy" class="busy"></a> </div></td>
+              <td><a href="#" title="busy" class="editWorkflow"></a></td>
+            </tr>
+            <tr class="active">
+              <th scope="row">1</th>
+              <td>Proposal from Southeast Community College to Community Health Endowment of Lincoln</td>
+              <td><div class="action-tool-icons"> <a href="#" title="run" class="run"></a> <a href="#" title="edit" class="edit"></a> <a href="#" title="historical" class="historical"></a> <a href="#" title="remove" class="remove"></a> </div></td>
+              <td><div class="status-tool-icons"> <a href="#" title="online" class="online"></a> <a href="#" title="away" class="away"></a> <a href="#" title="offline" class="offline"></a> <a href="#" title="busy" class="busy"></a> </div></td>
+              <td><a href="#" title="busy" class="editWorkflow"></a></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Letter of Inquiry from Cleveland Entrepreneurial Preparatory School to Burton D Morgan Foundation</td>
+              <td><div class="action-tool-icons"> <a href="#" title="run" class="run"></a> <a href="#" title="edit" class="edit"></a> <a href="#" title="historical" class="historical"></a> <a href="#" title="remove" class="remove"></a> </div></td>
+              <td><div class="status-tool-icons"> <a href="#" title="online" class="online"></a> <a href="#" title="away" class="away"></a> <a href="#" title="offline" class="offline"></a> <a href="#" title="busy" class="busy"></a> </div></td>
+              <td><a href="#" title="busy" class="editWorkflow"></a></td>
+            </tr>
+            <tr class="active">
+              <th scope="row">1</th>
+              <td>Proposal from Southeast Community College to Community Health Endowment of Lincoln</td>
+              <td><div class="action-tool-icons"> <a href="#" title="run" class="run"></a> <a href="#" title="edit" class="edit"></a> <a href="#" title="historical" class="historical"></a> <a href="#" title="remove" class="remove"></a> </div></td>
+              <td><div class="status-tool-icons"> <a href="#" title="online" class="online"></a> <a href="#" title="away" class="away"></a> <a href="#" title="offline" class="offline"></a> <a href="#" title="busy" class="busy"></a> </div></td>
+              <td><a href="#" title="busy" class="editWorkflow"></a></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Letter of Inquiry from Cleveland Entrepreneurial Preparatory School to Burton D Morgan Foundation</td>
+              <td><div class="action-tool-icons"> <a href="#" title="run" class="run"></a> <a href="#" title="edit" class="edit"></a> <a href="#" title="historical" class="historical"></a> <a href="#" title="remove" class="remove"></a> </div></td>
+              <td><div class="status-tool-icons"> <a href="#" title="online" class="online"></a> <a href="#" title="away" class="away"></a> <a href="#" title="offline" class="offline"></a> <a href="#" title="busy" class="busy"></a> </div></td>
+              <td><a href="#" title="busy" class="editWorkflow"></a></td>
+            </tr>
+            <tr class="active">
+              <th scope="row">1</th>
+              <td>Proposal from Southeast Community College to Community Health Endowment of Lincoln</td>
+              <td><div class="action-tool-icons"> <a href="#" title="run" class="run"></a> <a href="#" title="edit" class="edit"></a> <a href="#" title="historical" class="historical"></a> <a href="#" title="remove" class="remove"></a> </div></td>
+              <td><div class="status-tool-icons"> <a href="#" title="online" class="online"></a> <a href="#" title="away" class="away"></a> <a href="#" title="offline" class="offline"></a> <a href="#" title="busy" class="busy"></a> </div></td>
+              <td><a href="#" title="busy" class="editWorkflow"></a></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Letter of Inquiry from Cleveland Entrepreneurial Preparatory School to Burton D Morgan Foundation</td>
+              <td><div class="action-tool-icons"> <a href="#" title="run" class="run"></a> <a href="#" title="edit" class="edit"></a> <a href="#" title="historical" class="historical"></a> <a href="#" title="remove" class="remove"></a> </div></td>
+              <td><div class="status-tool-icons"> <a href="#" title="online" class="online"></a> <a href="#" title="away" class="away"></a> <a href="#" title="offline" class="offline"></a> <a href="#" title="busy" class="busy"></a> </div></td>
+              <td><a href="#" title="busy" class="editWorkflow"></a></td>
+            </tr>
+            <tr class="active">
+              <th scope="row">1</th>
+              <td>Proposal from Southeast Community College to Community Health Endowment of Lincoln</td>
+              <td><div class="action-tool-icons"> <a href="#" title="run" class="run"></a> <a href="#" title="edit" class="edit"></a> <a href="#" title="historical" class="historical"></a> <a href="#" title="remove" class="remove"></a> </div></td>
+              <td><div class="status-tool-icons"> <a href="#" title="online" class="online"></a> <a href="#" title="away" class="away"></a> <a href="#" title="offline" class="offline"></a> <a href="#" title="busy" class="busy"></a> </div></td>
+              <td><a href="#" title="busy" class="editWorkflow"></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Table Data Content End -->
+      <!-- Pagination Start -->
+      <div class="col-lg-12">
+        <h5 class="pull-left showingResult">Showing 1 to 30 of <span class="label label-danger">340</span> record(s)</h5>
+        <nav class="pull-right">
+          <ul class="pagination pagination-sm">
+            <li><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+          </ul>
+        </nav>
+      </div>
+      <!-- Pagination End -->
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  <!-- Main Content Area End -->
+  <div class="clearfix"></div>
+</div>
+<!-- Container End -->
+<script src="../js/jquery-1.10.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script>
+// tree expand collapse with text change
+$(document).ready(function () {
+  (function ($) {
+    $('ul.applicationTree > li:first').find('ul').show();
+    $('.workflowlist li').each(function () {
+      if ($(this).children('ul').length > 0) {
+        $(this).addClass('parent');
+      }
+    });
+    $('.workflowlist li.parent > a').click(function () {
+      $('ul.applicationTree > li').find('ul').hide();
+      $(this).parent().toggleClass('active');
+      $(this).parent().children('ul').slideToggle('fast');
+    });
+    $('.workflowlist li.parent > ul > li > a').click(function () {
+      $(this).parents('ul.applicationTree').find('li.treeActive').removeClass('treeActive');
+      $(this).parent().addClass('treeActive');
+    });
+  }(jQuery));
+  /* doucment click get the node name */
+  $('body').on('click', function (event) {
+    var target = $(event.target);
+    if (target.is('input')) {
+      $(this).parents().find('.page-sidebar').css({
+        'position': 'absolute',
+        'z-index': '999999',
+        'top': '70px',
+        'left': '0'
+      })
+      $('input#sidebar-text-search').keyup(function () {
+        $(this).parents().find('.page-sidebar').animate({
+          width: '50%'
+        });
+      })
+    } if(target.is('input')) {
+		}	
+	else {
+      $(this).parents().find('.page-sidebar').removeAttr('style');
+    }
+  });
+});
+</script>
+</body>
+</html>

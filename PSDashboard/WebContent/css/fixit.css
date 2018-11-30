@@ -1,0 +1,26 @@
+.fixitClass > div > table > thead{
+	border: 1px solid black; 
+	border-collapse: collapse;
+}
+
+.fixitClass > div > table > thead > tr > th{
+	padding-left: 10px;
+	background-color: #cccccc; /*#e35b5a;*/
+	padding: 5px;
+	border: 1px solid #45adff;
+	line-height: 24px;
+	font-weight: bold;
+	text-align: center;
+	color:#222;
+}
+
+.fixitClass > div > table > tbody{
+	 border: 1px solid black; 
+	 border-collapse: collapse;
+}
+
+.fixitClass > div > table > tbody > tr > td{
+	 padding-left: 10px;
+	 padding: 5px;
+	 border: 1px solid #ccc;
+}
